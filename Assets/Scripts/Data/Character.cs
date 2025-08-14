@@ -101,6 +101,19 @@ public float GetFinalMagicDamage(Magic magic)
     private const int HP_GROWTH = 10;   // レベルアップごとにHP+10
     private const int MP_GROWTH = 5;    // レベルアップごとにMP+5
     
+    // 経験値計算用定数
+    public const int BASE_EXP_REQUIRED = 100;  // レベル2に必要な基本経験値
+    public const float EXP_MULTIPLIER = 1.5f;  // レベルごとの必要経験値倍率
+    
+    /// <summary>
+    /// 指定レベルに必要な経験値を計算
+    /// </summary>
+    public static int GetRequiredExp(int level)
+    {
+        // レベル * 基本経験値 * (倍率 ^ (レベル-1))
+        return Mathf.RoundToInt(BASE_EXP_REQUIRED * Mathf.Pow(EXP_MULTIPLIER, level - 1));
+    }
+    
     /// <summary>
     /// レベルアップ処理
     /// </summary>
@@ -375,38 +388,40 @@ public enum FormType
 /// </summary>
 public enum EffectType
 {
-    None,
+  None,
 
-    /// <summary>
-    /// 対象のHPに直接的な損害を与える。
-    /// </summary>
-    Damage,         // ダメージ
+  /// <summary>
+  /// 対象のHPに直接的な損害を与える。
+  /// </summary>
+  Damage,         // ダメージ
 
-    /// <summary>
-    /// 対象のHPを回復させる。
-    /// </summary>
-    Heal,           // 回復
+  /// <summary>
+  /// 対象のHPを回復させる。
+  /// </summary>
+  Heal,           // 回復
 
-    /// <summary>
-    /// 対象を強制的に移動させる（ノックバック、引き寄せなど）。
-    /// </summary>
-    Movement,       // 移動
+  /// <summary>
+  /// 対象を強制的に移動させる（ノックバック、引き寄せなど）。
+  /// </summary>
+  Movement,       // 移動
 
-    /// <summary>
-    /// 対象に有益な状態変化（バフ）を付与する。
-    /// </summary>
-    ApplyBuff,      // バフ付与
+  /// <summary>
+  /// 対象に有益な状態変化（バフ）を付与する。
+  /// </summary>
+  ApplyBuff,      // バフ付与
 
-    /// <summary>
-    /// 対象に有害な状態変化（デバフ）を付与する。
-    /// </summary>
-    ApplyDebuff,    // デバフ付与
+  /// <summary>
+  /// 対象に有害な状態変化（デバフ）を付与する。
+  /// </summary>
+  ApplyDebuff,    // デバフ付与
 
-    /// <summary>
-    /// 新たなオブジェクトをその場に生成する（壁、武器など）。
-    /// </summary>
-    Generate,       // 生成
+  /// <summary>
+  /// 新たなオブジェクトをその場に生成する（壁、武器など）。
+  /// </summary>
+  Generate,       // 生成
 }
+
+//状態異常は後で実装
 
 // /// <summary>
 // /// 状態異常のデータ
